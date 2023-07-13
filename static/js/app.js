@@ -6,15 +6,23 @@ const dataPromise = d3.json(url);
 console.log("Data Promise: ", dataPromise);
 
 d3.json(url).then(function(data) {
-    console.log(data);
-    
+    console.log("JSON output", data);
+
+// Create variables for the 3 sections
     let names = data.names;
     let metadata = data.metadata;
     let samples = data.samples;
-  
+
+    console.log("Names", names);
+    console.log("Metadata", metadata);
+    console.log("Samples", samples);
+
   // Create rows in panel for metadata
     var body = d3.select(".panel-body"); 
     body.append("ul");
+
+  // Remove bullets from ul
+    d3.select("ul").attr("class", "list-unstyled");
     var list = d3.select("ul");
     var id = list.append("li");
     var eth = list.append("li"); 
@@ -26,12 +34,13 @@ d3.json(url).then(function(data) {
 
   // Build initial display
   function init() {
-  
+  // Supply first value to render initial charts
   let name = "940"
   let newSample = samples.filter(a => a.id === name);
   let newMetadata = metadata.filter(a => a.id === parseInt(name));
+  console.log("Initial Sample", newSample);
+  console.log("Initial Metadata", newMetadata);
 
-  console.log(newSample);
   // Populate Metadata Table
   let metaID = newMetadata[0]["id"];
   let metaEth = newMetadata[0]["ethnicity"];
@@ -49,8 +58,8 @@ d3.json(url).then(function(data) {
   bb.text(`BB Type:  ${metaBB}`);
   wfreq.text(`W freq:  ${metawfreq}`);
 
-  ids = newSample[0]["otu_ids"];
-  console.log("ids", ids);
+  // ids = newSample[0]["otu_ids"];
+  // console.log("ids", ids);
 
   // Bubble plot
   let trace2 = {
@@ -60,7 +69,6 @@ d3.json(url).then(function(data) {
     mode: 'markers',
     marker: {
       color: newSample[0]["otu_ids"],
-      // colorscale: [[0, 'rgb(0,0,139)'], [1, 'rgb(210,180,140)']],
       size: newSample[0]["sample_values"]
       }
     };
@@ -78,9 +86,8 @@ d3.json(url).then(function(data) {
   
 
   // Sample bar chart
-
   sampleData = newSample[0]["sample_values"];
-  // console.log(sampleData)
+
   
   // Merge Arrays into list of dictionaries for sorting/slicing
   let sampleCombined = []
@@ -91,19 +98,19 @@ d3.json(url).then(function(data) {
       "otu_labels": newSample[0]["otu_labels"][i]
     });  
   }
+  console.log("Sample Dictionary for bar plot", sampleCombined);
   // Sort by sample_values(descending)
   let sampleSort = sampleCombined.sort((a, b) => b.sample_values - a.sample_values);
-  console.log("Sample Sort", sampleSort)
+  console.log("Sample Sort", sampleSort);
 
   // Slice to limit to top 10
   let sampleTopTen = sampleSort.slice(0, 10);
-  console.log("Sample Top Ten", sampleTopTen)
+  console.log("Sample Top Ten", sampleTopTen);
 
 
   // Reverse for plotting
   let samplePlot = sampleTopTen.reverse();
-  console.log("Reversed for Plot". samplePlot);
-
+  
 
   // Build Bar Chart
     let trace1 = {
@@ -118,7 +125,18 @@ d3.json(url).then(function(data) {
 
     Plotly.newPlot("bar", traceData);
   
+
+
+  // Build gague chart
+
+
+
+
+  
   };   
+
+  // Part 2 - updates to plots from dropdown
+
   // DOM functions to pull dropdown and update charts
   // https://stackoverflow.com/questions/43121679/how-to-append-option-into-select-combo-box-in-d3
     let selector = d3.select("#selDataset");
@@ -140,15 +158,17 @@ function updatePlotly() {
   let dropdownMenu = d3.select("#selDataset");
   // Assign the value of the dropdown menu option to a variable
   let name = dropdownMenu.property("value");
-  console.log(name);
+ 
 
   // Find new sample by id in JSON
   // https://stackoverflow.com/questions/55836129/return-json-object-by-value-of-a-key
   let newSample = samples.filter(a => a.id === name);
   let newMetadata = metadata.filter(a => a.id === parseInt(name));
 
-  console.log(newSample);
-  console.log(newMetadata);
+  console.log("New Sample sample extract: ", newSample);
+  console.log("New Sample metadata extract: ", newMetadata);
+
+  // New Values for metadata display
 
   let metaID = newMetadata[0]["id"];
   let metaEth = newMetadata[0]["ethnicity"];
@@ -158,7 +178,7 @@ function updatePlotly() {
   let metaBB = newMetadata[0]["bbtype"];
   let metawfreq = newMetadata[0]["wfreq"];
 
-  // New Data for metadata
+  // Input metadata values into panel
   id.text(`ID:  ${metaID}`);
   eth.text(`Ethnicity:  ${metaEth}`); 
   gend.text(`Gender:  ${metaGender}`);
@@ -184,18 +204,17 @@ function updatePlotly() {
       xaxis: {
       title: {
         text: "OTU ID"
+        }
       }
-      }
-      };
+    };
 
 
 
   let newData = [data];
 
-  Plotly.newPlot("bubble", newData, bubbleLayout)
+  Plotly.newPlot("bubble", newData, bubbleLayout);
   
     // Sample bar chart
-
     sampleData = newSample[0]["sample_values"];
     // console.log(sampleData)
     
@@ -208,18 +227,20 @@ function updatePlotly() {
         "otu_labels": newSample[0]["otu_labels"][i]
       });  
     }
+    console.log("New Sample Dictionary for bar plot", sampleCombined);
+
     // Sort by sample_values(descending)
     let sampleSort = sampleCombined.sort((a, b) => b.sample_values - a.sample_values);
-    console.log("Sample Sort", sampleSort)
+    console.log("New Sample Sort", sampleSort)
   
     // Slice to limit to top 10
     let sampleTopTen = sampleSort.slice(0, 10);
-    console.log("Sample Top Ten", sampleTopTen)
+    console.log("New Sample Top Ten", sampleTopTen)
   
   
     // Reverse for plotting
     let samplePlot = sampleTopTen.reverse();
-    console.log("Reversed for Plot". samplePlot);
+    
   
   
     // Build Bar Chart
