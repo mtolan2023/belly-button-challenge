@@ -23,6 +23,7 @@ d3.json(url).then(function(data) {
 
   // Remove bullets from ul
     d3.select("ul").attr("class", "list-unstyled");
+    
     var list = d3.select("ul");
     var id = list.append("li");
     var eth = list.append("li"); 
@@ -128,11 +129,39 @@ d3.json(url).then(function(data) {
 
 
   // Build gague chart
-
-
-
-
+  //   var data = [
+  //     {
+  //       domain: { x: [0, 1], y: [0, 1] },
+  //       value: metawfreq,
+  //       title: { text: "Belly Button Washing Frequency" },
+  //       textposition: "inside",
+  //       type: "indicator",
+  //       mode: "gauge+number",
+  //       gauge: {
+  //         axis: { range: [null, 9], tickwidth: 1, tickcolor: "darkblue" },
+  //         bar: { color: "darkblue" },
+  //         bgcolor: "white",
+  //         borderwidth: 2,
+  //         bordercolor: "gray",
+  //         steps: [
+  //           { range: [0, 250], color: "cyan" },
+  //           { range: [250, 400], color: "royalblue" }
+  //         ]}
+  //   }
+  // ];
   
+  // var layout = { 
+  //   width: 600, 
+  //   height: 500, 
+  //   margin: { t: 0, b: 0 }, 
+
+  // };
+
+  // Plotly.newPlot('gauge', data, layout);
+
+
+
+
   };   
 
   // Part 2 - updates to plots from dropdown
