@@ -126,48 +126,11 @@ d3.json(url).then(function(data) {
 
     Plotly.newPlot("bar", traceData);
   
-
-
-  // Build gague chart
-  //   var data = [
-  //     {
-  //       domain: { x: [0, 1], y: [0, 1] },
-  //       value: metawfreq,
-  //       title: { text: "Belly Button Washing Frequency" },
-  //       textposition: "inside",
-  //       type: "indicator",
-  //       mode: "gauge+number",
-  //       gauge: {
-  //         axis: { range: [null, 9], tickwidth: 1, tickcolor: "darkblue" },
-  //         bar: { color: "darkblue" },
-  //         bgcolor: "white",
-  //         borderwidth: 2,
-  //         bordercolor: "gray",
-  //         steps: [
-  //           { range: [0, 250], color: "cyan" },
-  //           { range: [250, 400], color: "royalblue" }
-  //         ]}
-  //   }
-  // ];
-  
-  // var layout = { 
-  //   width: 600, 
-  //   height: 500, 
-  //   margin: { t: 0, b: 0 }, 
-
-  // };
-
-  // Plotly.newPlot('gauge', data, layout);
-
-
-
-
   };   
 
   // Part 2 - updates to plots from dropdown
 
   // DOM functions to pull dropdown and update charts
-  // https://stackoverflow.com/questions/43121679/how-to-append-option-into-select-combo-box-in-d3
     let selector = d3.select("#selDataset");
     let sampleNames = names;
             
@@ -190,7 +153,6 @@ function updatePlotly() {
  
 
   // Find new sample by id in JSON
-  // https://stackoverflow.com/questions/55836129/return-json-object-by-value-of-a-key
   let newSample = samples.filter(a => a.id === name);
   let newMetadata = metadata.filter(a => a.id === parseInt(name));
 
