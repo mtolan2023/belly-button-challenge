@@ -1,5 +1,5 @@
 # belly-button-challenge
-Module 14 Challenge
+Visualizing the Microbiome of the Belly Button
 
 Contained in this repo are the files for the "Belly Button Biodiversity Dashboard" including the html and js files needed to run the webpage.
 
